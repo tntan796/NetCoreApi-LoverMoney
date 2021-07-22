@@ -31,7 +31,7 @@ namespace DAL.Repositories
         {
             try
             {
-                const string storeProcedureName = "lm_Delete_Category";
+                const string storeProcedureName = "lm_Category_Delete";
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
@@ -54,7 +54,7 @@ namespace DAL.Repositories
         {
             try
             {
-                const string storeProcedureName = "lm_Get_Categories";
+                const string storeProcedureName = "lm_Category_Get_List";
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
@@ -80,7 +80,7 @@ namespace DAL.Repositories
         {
             try
             {
-                const string storeProcedureName = "lm_Get_Category_By_Id";
+                const string storeProcedureName = "lm_Category_Get_By_Id";
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
@@ -101,7 +101,7 @@ namespace DAL.Repositories
         {
             try
             {
-                const string storeProcedureName = "lm_Set_Category";
+                const string storeProcedureName = "lm_Category_Set";
                 using(SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
