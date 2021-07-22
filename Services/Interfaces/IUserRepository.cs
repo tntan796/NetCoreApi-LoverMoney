@@ -3,9 +3,9 @@ using Models.Common;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BLL.Intefaces
+namespace DAL.Interfaces
 {
-    public interface IUserService
+    public interface IUserRepository
     {
         ResponseList<IEnumerable<User>> GetUsers(FilterBase filter);
         Task<User> GetUserById(string id);

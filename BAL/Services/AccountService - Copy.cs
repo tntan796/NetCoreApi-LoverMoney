@@ -5,27 +5,28 @@ using Models;
 using Models.Common;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.Implements
+namespace BLL.Services
 {
-    public class UserService : IUserService
+    public class AccountService : IAccountService
     {
-        private readonly IUserRepository _userRepository;
-        private readonly ILogger<User> _logger;
+        private readonly IAccountRepository _categoryRepository;
+        private readonly ILogger<Account> _logger;
 
-        public UserService(
-            IUserRepository userRepository, ILogger<User> logger)
+        public AccountService(
+            IAccountRepository categoryRepository, ILogger<Account> logger)
         {
-            _userRepository = userRepository;
+            _categoryRepository = categoryRepository;
             _logger = logger;
         }
 
-        public Task<BaseValidate> DeleteUser(string id)
+        public Task<BaseValidate> DeleteAccount(string id)
         {
             try
             {
-                return this._userRepository.DeleteUser(id);
+                return this._categoryRepository.DeleteAccount(id);
             }
             catch (Exception ex)
             {
@@ -34,11 +35,11 @@ namespace BLL.Implements
             }
         }
 
-        public Task<User> GetUserById(string id)
+        public Task<Account> GetAccountById(string id)
         {
             try
             {
-                return this._userRepository.GetUserById(id);
+                return this._categoryRepository.GetAccountById(id);
             }
             catch (Exception ex)
             {
@@ -47,11 +48,11 @@ namespace BLL.Implements
             }
         }
 
-        public ResponseList<IEnumerable<User>> GetUsers(FilterBase filter)
+        public ResponseList<IEnumerable<Account>> GetAccounts(FilterBase filter)
         {
             try
             {
-                return this._userRepository.GetUsers(filter);
+                return this._categoryRepository.GetAccounts(filter);
             }
             catch (Exception ex)
             {
@@ -60,11 +61,11 @@ namespace BLL.Implements
             }
         }
 
-        public string SetUser(User user)
+        public string SetAccount(Account account)
         {
             try
             {
-                return this._userRepository.SetUser(user);
+                return this._categoryRepository.SetAccount(account);
             }
             catch (Exception ex)
             {
