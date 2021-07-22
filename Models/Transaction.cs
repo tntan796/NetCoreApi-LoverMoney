@@ -18,10 +18,14 @@ namespace Models
         public int Latitude { set; get; }
         public int Longtitude { set; get; }
         public string AccountId { set; get; }
+        public string UserName { set; get; }
         public string CategoryId { set; get; }
+        public string CategoryName { set; get; }
         public string EditByUserId { set; get; }
         public string With { set; get; }
         public string Metadata { set; get; }
-        public string walletId { set; get; }
+        public string WalletId { set; get; }
+        public string WalletName { set; get; }
+
     }
 }

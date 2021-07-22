@@ -14,5 +14,13 @@ namespace Models
         public DateTime CreatedDate { set; get; }
         public string CreateBy { set; get; }
         public string OldPassword { set; get; }
+
+        public string StatusName { set; get; }
+        public string FirstName { set; get; }
+        public string LastName { set; get; }
+        public string Email { set; get; }
+        public string Address { set; get; }
+        public string Phone { set; get; }
+        public string IdentityNo { set; get; }
     }
 }
