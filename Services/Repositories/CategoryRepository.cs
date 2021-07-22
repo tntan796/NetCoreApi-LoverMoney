@@ -27,10 +27,27 @@ namespace DAL.Repositories
             _logger = logger;
         }
 
-        public Task<bool> DeleteCustomer(string id)
+        public async Task<BaseValidate> DeleteCustomer(string id)
         {
-            //lm_Delete_Category
-            throw new NotImplementedException();
+            try
+            {
+                const string storeProcedureName = "lm_Delete_Category";
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    var param = new DynamicParameters();
+                    param.Add("@Id", id);
+                    param.Add("@StatusCode", 0 , DbType.Int32, direction: ParameterDirection.InputOutput);
+                    param.Add("@Message", "", DbType.String, direction: ParameterDirection.InputOutput);
+                    var category = await connection.QueryAsync<Category>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    return new BaseValidate(param.Get<int>("@StatusCode"), param.Get<string>("@Message"));
+                }
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
         }
 
         public ResponseList<IEnumerable<Category>> GetCategories(FilterBase filter)
@@ -59,7 +76,7 @@ namespace DAL.Repositories
             }
         }
 
-        public Task<Category> GetCategoryById(string id)
+        public async Task<Category> GetCategoryById(string id)
         {
             try
             {
@@ -69,7 +86,7 @@ namespace DAL.Repositories
                     connection.Open();
                     var param = new DynamicParameters();
                     param.Add("@Id", id);
-                    var category = connection.QueryFirstOrDefaultAsync<Category>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    var category = await connection.QuerySingleAsync<Category>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     return category;
                 }
             }

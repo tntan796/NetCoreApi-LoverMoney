@@ -18,6 +18,7 @@ namespace Models.Common
         OpenUrl = 9,
         Valid = 10,
         Invalid = 11,
-        Error = 12
+        Error = 12,
+        NotFound = 13
     }
 }

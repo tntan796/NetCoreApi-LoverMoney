@@ -35,11 +35,11 @@ namespace BLL.Services
             }
         }
 
-        public Task<bool> DeleteCustomer(string id)
+        public async Task<BaseValidate> DeleteCategory(string id)
         {
             try
             {
-                return this._categoryRepository.DeleteCustomer(id);
+                return await this._categoryRepository.DeleteCustomer(id);
             }
             catch (Exception ex)
             {
@@ -62,11 +62,11 @@ namespace BLL.Services
             }
         }
 
-        public Task<Category> GetCategoryById(string id)
+        public async Task<Category> GetCategoryById(string id)
         {
             try
             {
-                return this._categoryRepository.GetCategoryById(id);
+                return await this._categoryRepository.GetCategoryById(id);
             }
             catch (Exception ex)
             {
