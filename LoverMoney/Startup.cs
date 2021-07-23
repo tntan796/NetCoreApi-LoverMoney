@@ -5,12 +5,14 @@ using BLL.Intefaces;
 using BLL.Services;
 using DAL.Interfaces;
 using DAL.Repositories;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Serialization;
+using Utils.Authentication;
 
 namespace LoverMoney
 {
@@ -26,6 +28,8 @@ namespace LoverMoney
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
             var userConnectionString = Configuration.GetConnectionString("LoverMoneyConnection");
 
             //JSOn serializer
@@ -47,6 +51,7 @@ namespace LoverMoney
             services.AddScoped<IBankService, BankService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IStatusService, StatusService>();
+
 
             services.AddControllers();
             services.AddSwaggerGen();

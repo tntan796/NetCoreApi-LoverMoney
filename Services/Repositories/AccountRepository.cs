@@ -58,8 +58,30 @@ namespace DAL.Repositories
                     connection.Open();
                     var param = new DynamicParameters();
                     param.Add("@Id", id);
-                    var category = await connection.QuerySingleAsync<AccountReponse>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
-                    return category;
+                    var account = await connection.QuerySingleAsync<AccountReponse>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    return account;
+                }
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        public async Task<AccountReponse> GetAccountByUserNamePassword(string userName, string password)
+        {
+            try
+            {
+                const string storeProcedureName = "lm_Account_Get_By_UserName_Password";
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    var param = new DynamicParameters();
+                    param.Add("@UserName", userName);
+                    param.Add("@Password", password);
+                    var account = await connection.QuerySingleAsync<AccountReponse>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    return account;
                 }
             }
             catch (Exception ex)

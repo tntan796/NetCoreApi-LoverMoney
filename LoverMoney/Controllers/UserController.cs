@@ -1,4 +1,5 @@
 ﻿using BLL.Intefaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Common;
@@ -6,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace LoverMoney.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserControler : Controller
@@ -20,7 +22,7 @@ namespace LoverMoney.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery] FilterBase filterBase)
+        public IActionResult GetAccounts([FromQuery] FilterBase filterBase)
         {
             var result = _userService.GetUsers(filterBase);
             return Json(result);
