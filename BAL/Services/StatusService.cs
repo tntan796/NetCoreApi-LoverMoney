@@ -10,23 +10,23 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    public class AccountService : IAccountService
+    public class StatusService : IStatusService
     {
-        private readonly IAccountRepository _categoryRepository;
-        private readonly ILogger<Account> _logger;
+        private readonly IStatusRepository _statusRepository;
+        private readonly ILogger<Status> _logger;
 
-        public AccountService(
-            IAccountRepository categoryRepository, ILogger<Account> logger)
+        public StatusService(
+            IStatusRepository statusRepository, ILogger<Status> logger)
         {
-            _categoryRepository = categoryRepository;
+            _statusRepository = statusRepository;
             _logger = logger;
         }
 
-        public Task<BaseValidate> DeleteAccount(string id)
+        public Task<BaseValidate> DeleteStatus(int id)
         {
             try
             {
-                return this._categoryRepository.DeleteAccount(id);
+                return this._statusRepository.DeleteStatus(id);
             }
             catch (Exception ex)
             {
@@ -35,11 +35,11 @@ namespace BLL.Services
             }
         }
 
-        public Task<Account> GetAccountById(string id)
+        public Task<Status> GetStatusById(int id)
         {
             try
             {
-                return this._categoryRepository.GetAccountById(id);
+                return this._statusRepository.GetStatusById(id);
             }
             catch (Exception ex)
             {
@@ -48,11 +48,11 @@ namespace BLL.Services
             }
         }
 
-        public ResponseList<IEnumerable<Account>> GetAccounts(FilterBase filter)
+        public ResponseList<IEnumerable<Status>> GetStatus(FilterBase filter)
         {
             try
             {
-                return this._categoryRepository.GetAccounts(filter);
+                return this._statusRepository.GetStatus(filter);
             }
             catch (Exception ex)
             {
@@ -61,11 +61,11 @@ namespace BLL.Services
             }
         }
 
-        public string SetAccount(Account account)
+        public Task<string> SetStatus(Status status)
         {
             try
             {
-                return this._categoryRepository.SetAccount(account);
+                return this._statusRepository.SetStatus(status);
             }
             catch (Exception ex)
             {

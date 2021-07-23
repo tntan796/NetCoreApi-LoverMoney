@@ -39,16 +39,14 @@ namespace LoverMoney
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<IBankRepository, BankRepository>();
             services.AddTransient<IUserRepository, UserRepsitory>();
-
-
+            services.AddTransient<IStatusRepository, StatusRepository>();
 
             // Register Service
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IBankService, BankService>();
             services.AddScoped<IUserService, UserService>();
-
-
+            services.AddScoped<IStatusService, StatusService>();
 
             services.AddControllers();
             services.AddSwaggerGen();

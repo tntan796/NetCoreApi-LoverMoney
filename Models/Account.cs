@@ -14,7 +14,10 @@ namespace Models
         public DateTime CreatedDate { set; get; }
         public string CreateBy { set; get; }
         public string OldPassword { set; get; }
+    }
 
+    public class AccountReponse: Account
+    {
         public string StatusName { set; get; }
         public string FirstName { set; get; }
         public string LastName { set; get; }

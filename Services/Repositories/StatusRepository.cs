@@ -8,28 +8,27 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    public class AccountRepository : IAccountRepository
+    public class StatusRepository : IStatusRepository
     {
         private readonly string _connectionString;
-        private readonly ILogger<AccountRepository> _logger;
+        private readonly ILogger<StatusRepository> _logger;
 
-        public AccountRepository(
+        public StatusRepository(
              IConfiguration configuration,
-             ILogger<AccountRepository> logger)
+             ILogger<StatusRepository> logger)
         {
             _connectionString = configuration.GetConnectionString("LoverMoneyConnection");
             _logger = logger;
         }
-        public async Task<BaseValidate> DeleteAccount(string id)
+        public async Task<BaseValidate> DeleteStatus(int id)
         {
             try
             {
-                const string storeProcedureName = "lm_Account_Delete";
+                const string storeProcedureName = "lm_Status_Delete";
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
@@ -48,18 +47,18 @@ namespace DAL.Repositories
             }
         }
 
-        public async Task<AccountReponse> GetAccountById(string id)
+        public async Task<Status> GetStatusById(int id)
         {
             try
             {
-                const string storeProcedureName = "lm_Account_Get_By_Id";
+                const string storeProcedureName = "lm_Status_Get_By_Id";
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
                     var param = new DynamicParameters();
                     param.Add("@Id", id);
-                    var category = await connection.QuerySingleAsync<AccountReponse>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
-                    return category;
+                    var status = await connection.QuerySingleAsync<Status>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    return status;
                 }
             }
             catch (Exception ex)
@@ -69,11 +68,11 @@ namespace DAL.Repositories
             }
         }
 
-        public ResponseList<IEnumerable<AccountReponse>> GetAccounts(FilterBase filter)
+        public ResponseList<IEnumerable<Status>> GetStatus(FilterBase filter)
         {
             try
             {
-                const string storeProcedureName = "lm_Account_Get_List";
+                const string storeProcedureName = "lm_Status_Get_List";
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
@@ -83,8 +82,8 @@ namespace DAL.Repositories
                     param.Add("@pageSize", filter.pageSize);
                     param.Add("@total", 0, DbType.Int32, ParameterDirection.InputOutput);
                     param.Add("@totalFiltered", 0, DbType.Int32, ParameterDirection.InputOutput);
-                    var account = connection.Query<AccountReponse>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
-                    var result = new ResponseList<IEnumerable<AccountReponse>>(account, param.Get<int>("@total"), param.Get<int>("@totalFiltered"));
+                    var account = connection.Query<Status>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    var result = new ResponseList<IEnumerable<Status>>(account, param.Get<int>("@total"), param.Get<int>("@totalFiltered"));
                     return result;
                 }
             }
@@ -95,27 +94,21 @@ namespace DAL.Repositories
             }
         }
 
-        public string SetAccount(Account account)
+        public async Task<string> SetStatus(Status status)
         {
             try
             {
-                const string storeProcedureName = "lm_Account_Set";
+                const string storeProcedureName = "lm_Status_Set";
                 using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
                     var param = new DynamicParameters();
-                    param.Add("@Id", account.Id);
-                    param.Add("@UserName", account.UserName);
-                    param.Add("@Password", account.Password);
-                    param.Add("@CreatedDate", account.CreatedDate);
-                    param.Add("@CreatedBy", account.CreateBy);
-                    param.Add("@StatusId", account.StatusId);
-                    param.Add("@OldPassword", account.OldPassword);
-                    param.Add("@UserId", account.UserId);
+                    param.Add("@Id", status.Id);
+                    param.Add("@Name", status.Name);
+                    param.Add("@Description", status.Description);
                     param.Add("@OutputRequestId", "", DbType.String, ParameterDirection.InputOutput);
-                    var result = connection.Execute(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    var result = await connection.ExecuteAsync(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     return param.Get<string>("@OutputRequestId");
-
                 }
             }
             catch (Exception ex)

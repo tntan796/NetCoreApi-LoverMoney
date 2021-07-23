@@ -35,7 +35,7 @@ namespace BLL.Services
             }
         }
 
-        public Task<Account> GetAccountById(string id)
+        public Task<AccountReponse> GetAccountById(string id)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace BLL.Services
             }
         }
 
-        public ResponseList<IEnumerable<Account>> GetAccounts(FilterBase filter)
+        public ResponseList<IEnumerable<AccountReponse>> GetAccounts(FilterBase filter)
         {
             try
             {
