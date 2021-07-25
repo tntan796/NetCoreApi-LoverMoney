@@ -11,5 +11,6 @@ namespace DAL.Interfaces
         Task<AccountReponse> GetAccountById(string id);
         string SetAccount(Account account);
         Task<BaseValidate> DeleteAccount(string id);
+        Task<AccountReponse> GetAccountByUserNamePassword(string userName, string password);
     }
 }

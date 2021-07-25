@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Models.Authen;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace Models
 {
@@ -25,5 +27,18 @@ namespace Models
         public string Address { set; get; }
         public string Phone { set; get; }
         public string IdentityNo { set; get; }
+    }
+
+    public class AccountLogin
+    {
+        public string Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Username { get; set; }
+
+        [JsonIgnore]
+        public string Password { get; set; }
+        [JsonIgnore]
+        public List<RefreshToken> RefreshTokens { get; set; }
     }
 }

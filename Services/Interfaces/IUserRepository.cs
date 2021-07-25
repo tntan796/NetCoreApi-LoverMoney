@@ -11,5 +11,6 @@ namespace DAL.Interfaces
         Task<User> GetUserById(string id);
         string SetUser(User user);
         Task<BaseValidate> DeleteUser(string id);
+
     }
 }

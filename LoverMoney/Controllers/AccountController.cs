@@ -1,4 +1,5 @@
 ﻿using BLL.Intefaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Common;
@@ -8,6 +9,7 @@ namespace LoverMoney.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AccountController : Controller
     {
         IAccountService _accountService;

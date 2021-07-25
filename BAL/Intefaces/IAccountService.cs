@@ -1,4 +1,5 @@
 ﻿using Models;
+using Models.Authen;
 using Models.Common;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,5 +12,7 @@ namespace BLL.Intefaces
         Task<AccountReponse> GetAccountById(string id);
         string SetAccount(Account account);
         Task<BaseValidate> DeleteAccount(string id);
+        string GenerateJwtToken(AccountReponse account);
+        Task<AuthenticateResponse> Authenticate(AuthenticateRequest model);
     }
 }
