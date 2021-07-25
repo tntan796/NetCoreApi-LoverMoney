@@ -36,7 +36,7 @@ namespace LoverMoney.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetTransaction([FromForm] Transaction trransaction)
+        public IActionResult SetTransaction([FromBody] Transaction trransaction)
         {
             var result = _transactionService.SetTransaction(trransaction);
             return Json(result);

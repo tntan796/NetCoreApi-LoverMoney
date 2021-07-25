@@ -40,7 +40,7 @@ namespace LoverMoney.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetCategory([FromForm] Category category)
+        public IActionResult SetCategory([FromBody] Category category)
         {
             var result = _categoryService.SetCategory(category);
             return Json(result);

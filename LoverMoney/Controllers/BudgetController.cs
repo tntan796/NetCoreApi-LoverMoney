@@ -35,7 +35,7 @@ namespace LoverMoney.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetBudget([FromForm] Budget account)
+        public IActionResult SetBudget([FromBody] Budget account)
         {
             var result = _budgetService.SetBudget(account);
             return Json(result);

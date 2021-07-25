@@ -38,7 +38,7 @@ namespace LoverMoney.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetDevice([FromForm] Device device)
+        public IActionResult SetDevice([FromBody] Device device)
         {
             var result = _deviceService.SetDevice(device);
             return Json(result);

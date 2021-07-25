@@ -37,7 +37,7 @@ namespace LoverMoney.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetAccount([FromForm] Account account)
+        public IActionResult SetAccount([FromBody] Account account)
         {
             var result = _accountService.SetAccount(account);
             return Json(result);

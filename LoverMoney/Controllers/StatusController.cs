@@ -35,7 +35,7 @@ namespace LoverMoney.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetStatus([FromForm] Status status)
+        public IActionResult SetStatus([FromBody] Status status)
         {
             var result = _statusService.SetStatus(status);
             return Json(result);

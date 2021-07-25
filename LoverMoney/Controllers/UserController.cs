@@ -37,7 +37,7 @@ namespace LoverMoney.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetUser([FromForm] User user)
+        public IActionResult SetUser([FromBody] User user)
         {
             var result = _userService.SetUser(user);
             return Json(result);

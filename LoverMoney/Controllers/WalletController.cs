@@ -38,7 +38,7 @@ namespace LoverMoney.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetWallet([FromForm] Wallet account)
+        public IActionResult SetWallet([FromBody] Wallet account)
         {
             var result = _walletService.SetWallet(account);
             return Json(result);

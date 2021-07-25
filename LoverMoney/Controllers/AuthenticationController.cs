@@ -19,7 +19,7 @@ namespace LoverMoney.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate(AuthenticateRequest model)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest model)
         {
             var response = await _accountService.Authenticate(model);
             if (response == null)

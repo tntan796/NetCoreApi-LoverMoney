@@ -35,7 +35,7 @@ namespace LoverMoney.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetBank([FromForm] Bank bank)
+        public IActionResult SetBank([FromBody] Bank bank)
         {
             var result = _bankService.SetBank(bank);
             return Json(result);
