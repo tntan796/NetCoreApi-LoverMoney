@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models.Authen;
+using Models.Common;
 using System;
 using System.Threading.Tasks;
 
@@ -19,13 +20,18 @@ namespace LoverMoney.Controllers
 
         [AllowAnonymous]
         [HttpPost("authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequest model)
+        public async Task<BaseResponse<AuthenticateResponse>> Authenticate([FromBody] AuthenticateRequest model)
         {
-            var response = await _accountService.Authenticate(model);
-            if (response == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+            try
+            {
+                var response = await _accountService.Authenticate(model);
+                return new BaseResponse<AuthenticateResponse>(ApiResult.Success, response, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<AuthenticateResponse>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
 
-            return Ok(response);
         }
     }
 }

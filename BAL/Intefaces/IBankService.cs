@@ -12,6 +12,6 @@ namespace BLL.Intefaces
         ResponseList<IEnumerable<Bank>> GetBanks(FilterBase filter);
         Task<Bank> GetBankById(string id);
         Task<string> SetBank(Bank bank);
-        Task<BaseValidate> DeleteBank(string id);
+        Task<string> DeleteBank(string id);
     }
 }

@@ -22,7 +22,7 @@ namespace BLL.Services
             _logger = logger;
         }
 
-        public Task<BaseValidate> DeleteBank(string id)
+        public Task<string> DeleteBank(string id)
         {
             try
             {

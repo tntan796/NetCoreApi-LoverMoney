@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using BLL.Intefaces;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -21,32 +23,60 @@ namespace LoverMoney.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetTransactions([FromQuery] FilterBase filterBase)
+        public BaseResponse<ResponseList<IEnumerable<TransactionResponse>>> GetTransactions([FromQuery] FilterBase filterBase)
         {
-            var result = _transactionService.GetTransactions(filterBase);
-            return Json(result);
+            try
+            {
+                ResponseList<IEnumerable<TransactionResponse>> result = _transactionService.GetTransactions(filterBase);
+                return new BaseResponse<ResponseList<IEnumerable<TransactionResponse>>>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<ResponseList<IEnumerable<TransactionResponse>>>(ApiResult.Success, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetTransactionById(string id)
+        public async Task<BaseResponse<TransactionResponse>> GetTransactionById(string id)
         {
-            var result = await _transactionService.GetTransactionById(id);
-            return Json(result);
+            try
+            {
+                TransactionResponse result = await _transactionService.GetTransactionById(id);
+                return new BaseResponse<TransactionResponse>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<TransactionResponse>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpPost]
-        public IActionResult SetTransaction([FromBody] Transaction trransaction)
+        public BaseResponse<string> SetTransaction([FromBody] Transaction transaction)
         {
-            var result = _transactionService.SetTransaction(trransaction);
-            return Json(result);
+            try
+            {
+                string result = _transactionService.SetTransaction(transaction);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTransaction(string id)
+        public async Task<BaseResponse<string>> DeleteTransaction(string id)
         {
-            var result = await _transactionService.DeleteTransaction(id);
-            return Json(result);
+            try
+            {
+                string result = await _transactionService.DeleteTransaction(id);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
     }
 }

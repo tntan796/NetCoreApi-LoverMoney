@@ -10,6 +10,6 @@ namespace DAL.Interfaces
         ResponseList<IEnumerable<Wallet>> GetWallets(FilterBase filter);
         Task<Wallet> GetWalletById(string id);
         string SetWallet(Wallet wallet);
-        Task<BaseValidate> DeleteWallet(string id);
+        Task<string> DeleteWallet(string id);
     }
 }

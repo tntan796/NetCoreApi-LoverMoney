@@ -35,7 +35,7 @@ namespace BLL.Services
             }
         }
 
-        public async Task<BaseValidate> DeleteCategory(string id)
+        public async Task<string> DeleteCategory(string id)
         {
             try
             {

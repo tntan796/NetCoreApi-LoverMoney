@@ -14,12 +14,14 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Utils;
 
 namespace BLL.Services
 {
     public class AccountService : IAccountService
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly IUserRepository _userRepository;
         private readonly ILogger<Account> _logger;
         private readonly AppSettings _appSettings;
         private IConfiguration _configuration;
@@ -27,26 +29,36 @@ namespace BLL.Services
             IAccountRepository accountRepository,
             ILogger<Account> logger,
             IOptions<AppSettings> appSettings,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IUserRepository userRepository)
         {
             _accountRepository = accountRepository;
             _logger = logger;
             _appSettings = appSettings.Value;
             _configuration = configuration;
+            _userRepository = userRepository;
         }
 
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest model)
         {
-            var user = await this._accountRepository.GetAccountByUserNamePassword(model.Username, model.Password);
+            var user = await this._accountRepository.GetAccountByUserNamePassword(model.Username, SecurityHelper.GetMD5Hash(model.Password));
             if (user == null)
             {
-                return null;
+                throw new Exception("Tài khoản, mật khẩu không đúng!");
+            }
+            if (user.StatusId == (int)AccountStatus.Lock)
+            {
+                throw new Exception("Tài khoản, mật khẩu không đúng!");
+            }
+            if (user.StatusId == (int)AccountStatus.New)
+            {
+                throw new Exception("Tài khoản chưa xác thực");
             }
             var token = GenerateJwtToken(user);
             return new AuthenticateResponse(user, token, "");
         }
 
-        public Task<BaseValidate> DeleteAccount(string id)
+        public Task<string> DeleteAccount(string id)
         {
             try
             {
@@ -122,11 +134,42 @@ namespace BLL.Services
             }
         }
 
-        public string SetAccount(Account account)
+        public async Task<string> SetAccount(AccountReponse account)
         {
             try
             {
-                return this._accountRepository.SetAccount(account);
+                account.Password = SecurityHelper.GetMD5Hash(account.Password);
+                string userId = await this._userRepository.SetUser(new User()
+                {
+                    Email = account.Email,
+                    FirstName = account.FirstName,
+                    Phone = account.Phone
+                });
+                account.UserId = userId;
+                AccountReponse checkExistsAccount = await _accountRepository.GetAccountByUserName(account.UserName);
+                if (checkExistsAccount != null)
+                {
+                    throw new Exception("Dupplicate Account");
+                }
+                return await this._accountRepository.SetAccount(account);
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
+        }
+        public async Task<string> SetAccountUser(AccountReponse account)
+        {
+            try
+            {
+                account.Password = SecurityHelper.GetMD5Hash(account.Password);
+                AccountReponse checkExistsAccount = await _accountRepository.GetAccountByUserName(account.UserName);
+                if (checkExistsAccount != null)
+                {
+                    throw new Exception("Dupplicate Account");
+                }
+                return await this._accountRepository.SetAccountUser(account);
             }
             catch (Exception ex)
             {

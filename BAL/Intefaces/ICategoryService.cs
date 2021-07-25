@@ -12,6 +12,6 @@ namespace BLL.Intefaces
         ResponseList<IEnumerable<Category>> GetCategories(FilterBase filter);
         Task<Category> GetCategoryById(string id);
         string SetCategory(Category category);
-        Task<BaseValidate> DeleteCategory(string id);
+        Task<string> DeleteCategory(string id);
     }
 }

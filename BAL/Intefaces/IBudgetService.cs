@@ -12,6 +12,6 @@ namespace BLL.Intefaces
         ResponseList<IEnumerable<Budget>> GetBudgets(FilterBase filter);
         Task<Budget> GetBudgetById(string id);
         string SetBudget(Budget budget);
-        Task<BaseValidate> DeleteBudget(string id);
+        Task<string> DeleteBudget(string id);
     }
 }

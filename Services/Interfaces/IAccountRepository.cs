@@ -9,8 +9,10 @@ namespace DAL.Interfaces
     {
         ResponseList<IEnumerable<AccountReponse>> GetAccounts(FilterBase filter);
         Task<AccountReponse> GetAccountById(string id);
-        string SetAccount(Account account);
-        Task<BaseValidate> DeleteAccount(string id);
+        Task<string> SetAccount(Account account);
+        Task<string> DeleteAccount(string id);
         Task<AccountReponse> GetAccountByUserNamePassword(string userName, string password);
+        Task<AccountReponse> GetAccountByUserName(string userName);
+        Task<string> SetAccountUser(AccountReponse account);
     }
 }

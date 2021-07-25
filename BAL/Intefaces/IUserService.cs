@@ -9,7 +9,7 @@ namespace BLL.Intefaces
     {
         ResponseList<IEnumerable<User>> GetUsers(FilterBase filter);
         Task<User> GetUserById(string id);
-        string SetUser(User user);
-        Task<BaseValidate> DeleteUser(string id);
+        Task<string> SetUser(User user);
+        Task<string> DeleteUser(string id);
     }
 }

@@ -25,7 +25,7 @@ namespace DAL.Repositories
             _connectionString = configuration.GetConnectionString("LoverMoneyConnection");
             _logger = logger;
         }
-        public async Task<BaseValidate> DeleteAccount(string id)
+        public async Task<string> DeleteAccount(string id)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace DAL.Repositories
                     param.Add("@StatusCode", 0, DbType.Int32, direction: ParameterDirection.InputOutput);
                     param.Add("@Message", "", DbType.String, direction: ParameterDirection.InputOutput);
                     var category = await connection.QueryAsync<Category>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
-                    return new BaseValidate(param.Get<int>("@StatusCode"), param.Get<string>("@Message"));
+                    return id;
                 }
             }
             catch (Exception ex)
@@ -80,7 +80,7 @@ namespace DAL.Repositories
                     var param = new DynamicParameters();
                     param.Add("@UserName", userName);
                     param.Add("@Password", password);
-                    var account = await connection.QuerySingleAsync<AccountReponse>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    var account = await connection.QueryFirstOrDefaultAsync<AccountReponse>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     return account;
                 }
             }
@@ -117,7 +117,43 @@ namespace DAL.Repositories
             }
         }
 
-        public string SetAccount(Account account)
+        public async Task<string> SetAccountUser(AccountReponse account)
+        {
+            try
+            {
+                const string storeProcedureName = "lm_Account_Create_User";
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    var param = new DynamicParameters();
+                    param.Add("@Id", account.Id);
+                    param.Add("@UserName", account.UserName);
+                    param.Add("@Password", account.Password);
+                    param.Add("@CreatedDate", account.CreatedDate);
+                    param.Add("@CreatedBy", account.CreateBy);
+                    param.Add("@StatusId", account.StatusId);
+                    param.Add("@OldPassword", account.OldPassword);
+                    param.Add("@UserId", account.UserId);
+                    param.Add("@FirstName", account.FirstName);
+                    param.Add("@LastName", account.LastName);
+                    param.Add("@Email", account.Email);
+                    param.Add("@Address", account.Address);
+                    param.Add("@Phone", account.Phone);
+                    param.Add("@IdentityNo", account.IdentityNo);
+                    param.Add("@OutputRequestId", "", DbType.String, ParameterDirection.InputOutput);
+                    var result = await connection.ExecuteAsync(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    var id = param.Get<string>("@OutputRequestId");
+                    return id;
+                }
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        public async Task<string> SetAccount(Account account)
         {
             try
             {
@@ -135,9 +171,30 @@ namespace DAL.Repositories
                     param.Add("@OldPassword", account.OldPassword);
                     param.Add("@UserId", account.UserId);
                     param.Add("@OutputRequestId", "", DbType.String, ParameterDirection.InputOutput);
-                    var result = connection.Execute(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    var result = await connection.ExecuteAsync(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     return param.Get<string>("@OutputRequestId");
 
+                }
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        public async Task<AccountReponse> GetAccountByUserName(string userName)
+        {
+            try
+            {
+                const string storeProcedureName = "lm_Account_Get_By_UserName";
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    var param = new DynamicParameters();
+                    param.Add("@UserName", userName);
+                    var account = await connection.QueryFirstOrDefaultAsync<AccountReponse>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    return account;
                 }
             }
             catch (Exception ex)

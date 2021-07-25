@@ -10,6 +10,6 @@ namespace DAL.Interfaces
         ResponseList<IEnumerable<Status>> GetStatus(FilterBase filter);
         Task<Status> GetStatusById(int id);
         Task<string> SetStatus(Status status);
-        Task<BaseValidate> DeleteStatus(int id);
+        Task<int> DeleteStatus(int id);
     }
 }

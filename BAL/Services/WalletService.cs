@@ -19,7 +19,7 @@ namespace BLL.Services
             _walletService = walletService;
             _logger = logger;
         }
-        public Task<BaseValidate> DeleteWallet(string id)
+        public Task<string> DeleteWallet(string id)
         {
             try
             {

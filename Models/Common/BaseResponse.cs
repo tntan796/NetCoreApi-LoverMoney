@@ -58,63 +58,21 @@ namespace Models.Common
             switch (status)
             {
                 case (ApiResult.Success):
-                    StatusCode = Constants.CodeStatusSuccess;
-                    Message = Constants.StatusSuccess;
+                    StatusCode = (int)ApiResult.Success;
                     Status = Constants.StatusSuccess;
                     break;
                 case (ApiResult.Fail):
-                    StatusCode = Constants.CodeStatusFail;
-                    Message = Constants.MessageSaveFail;
-                    Status = Constants.Statusfail;
-                    break;
-                case (ApiResult.DeleteSuccess):
-                    StatusCode = Constants.CodeStatusSuccess;
-                    Message = Constants.MessageDeleteSuccess;
-                    Status = Constants.StatusSuccess;
-                    break;
-                case (ApiResult.DeleteFail):
-                    StatusCode = Constants.CodeStatusFail;
-                    Message = Constants.MessageDeleteFail;
-                    Status = Constants.Statusfail;
-                    break;
-                case (ApiResult.CreateFail):
-                    StatusCode = Constants.CodeStatusCreateFail;
-                    Message = Constants.MessageCreateFail;
-                    Status = Constants.Statusfail;
-                    break;
-                case (ApiResult.CreateFailDuplicate):
-                    StatusCode = Constants.CodeStatusCreateDupcate;
-                    Message = Constants.MessageCreateDupcate;
-                    Status = Constants.Statusfail;
-                    break;
-                case (ApiResult.NeedToRefreshData):
-                    StatusCode = Constants.CodeStatusRefreshToken;
-                    Message = Constants.MessageRefreshToken;
-                    Status = Constants.Statusfail;
-                    break;
-                case (ApiResult.OpenUrl):
-                    StatusCode = Constants.CodeStatusRefreshToken;
-                    Message = Constants.MessageOpenUrl;
-                    Status = Constants.StatusSuccess;
-                    break;
-                case (ApiResult.Valid):
-                    StatusCode = Constants.CodeStatusSuccess;
-                    Message = Constants.MessageDataValid;
-                    Status = Constants.StatusSuccess;
-                    break;
-                case (ApiResult.Invalid):
-                    StatusCode = Constants.CodeStatusFail;
-                    Message = Constants.MessageDataInvalid;
-                    Status = Constants.Statusfail;
-                    break;
-                case (ApiResult.Error):
-                    StatusCode = Constants.CodeStatusFail;
-                    Message = Constants.MessageGetDataFail;
+                    StatusCode = (int)ApiResult.Fail;
                     Status = Constants.Statusfail;
                     break;
                 default:
                     break;
             }
+        }
+
+        public void SetMessage(string message)
+        {
+            this.Message = message;
         }
 
         public void SetStatus(int statusCode, string message)
@@ -123,7 +81,7 @@ namespace Models.Common
             this.Message = message;
         }
 
-        public BaseResponse(ApiResult status, T data = default, string error = null)
+        public BaseResponse(ApiResult status, T data = default, string error = null, string message = "")
         {
             SetStatus(status);
 
@@ -136,6 +94,11 @@ namespace Models.Common
             {
                 AddError(error);
             }
+
+            if (!string.IsNullOrEmpty(message))
+            {
+                SetMessage(message);
+            }
         }
 
         public void SetStatus(ApiResult status, string message)
@@ -143,58 +106,11 @@ namespace Models.Common
             switch (status)
             {
                 case (ApiResult.Success):
-                    StatusCode = Constants.CodeStatusSuccess;
-                    Message = message;
+                    StatusCode = (int)ApiResult.Success;
                     Status = Constants.StatusSuccess;
                     break;
                 case (ApiResult.Fail):
-                    StatusCode = Constants.CodeStatusFail;
-                    Message = message;
-                    Status = Constants.Statusfail;
-                    break;
-                case (ApiResult.DeleteSuccess):
-                    StatusCode = Constants.CodeStatusSuccess;
-                    Message = message;
-                    Status = Constants.StatusSuccess;
-                    break;
-                case (ApiResult.DeleteFail):
-                    StatusCode = Constants.CodeStatusFail;
-                    Message = message;
-                    Status = Constants.Statusfail;
-                    break;
-                case (ApiResult.CreateFail):
-                    StatusCode = Constants.CodeStatusCreateFail;
-                    Message = message;
-                    Status = Constants.Statusfail;
-                    break;
-                case (ApiResult.CreateFailDuplicate):
-                    StatusCode = Constants.CodeStatusCreateDupcate;
-                    Message = message;
-                    Status = Constants.Statusfail;
-                    break;
-                case (ApiResult.NeedToRefreshData):
-                    StatusCode = Constants.CodeStatusRefreshToken;
-                    Message = message;
-                    Status = Constants.Statusfail;
-                    break;
-                case (ApiResult.OpenUrl):
-                    StatusCode = Constants.CodeStatusRefreshToken;
-                    Message = message;
-                    Status = Constants.StatusSuccess;
-                    break;
-                case (ApiResult.Valid):
-                    StatusCode = Constants.CodeStatusSuccess;
-                    Message = message;
-                    Status = Constants.StatusSuccess;
-                    break;
-                case (ApiResult.Invalid):
-                    StatusCode = Constants.CodeStatusFail;
-                    Message = message;
-                    Status = Constants.Statusfail;
-                    break;
-                case (ApiResult.Error):
-                    StatusCode = Constants.CodeStatusFail;
-                    Message = message;
+                    StatusCode = (int)ApiResult.Fail;
                     Status = Constants.Statusfail;
                     break;
                 default:

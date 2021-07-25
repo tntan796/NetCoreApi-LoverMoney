@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using BLL.Intefaces;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -20,32 +22,60 @@ namespace LoverMoney.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetStatus([FromQuery] FilterBase filterBase)
+        public BaseResponse<ResponseList<IEnumerable<Status>>> GetStatus([FromQuery] FilterBase filterBase)
         {
-            var result = _statusService.GetStatus(filterBase);
-            return Json(result);
+            try
+            {
+                ResponseList<IEnumerable<Status>> result = _statusService.GetStatus(filterBase);
+                return new BaseResponse<ResponseList<IEnumerable<Status>>>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<ResponseList<IEnumerable<Status>>>(ApiResult.Success, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetStatusById(int id)
+        public async Task<BaseResponse<Status>> GetStatusById(int id)
         {
-            var result = await _statusService.GetStatusById(id);
-            return Json(result);
+            try
+            {
+                Status result = await _statusService.GetStatusById(id);
+                return new BaseResponse<Status>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<Status>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpPost]
-        public IActionResult SetStatus([FromBody] Status status)
+        public async Task<BaseResponse<string>> SetStatus([FromBody] Status status)
         {
-            var result = _statusService.SetStatus(status);
-            return Json(result);
+            try
+            {
+                string result = await _statusService.SetStatus(status);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteStatus(int id)
+        public async Task<BaseResponse<string>> DeleteStatus(int id)
         {
-            var result = await _statusService.DeleteStatus(id);
-            return Json(result);
+            try
+            {
+                int result = await _statusService.DeleteStatus(id);
+                return new BaseResponse<string>(ApiResult.Success, result.ToString(), null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
     }
 }

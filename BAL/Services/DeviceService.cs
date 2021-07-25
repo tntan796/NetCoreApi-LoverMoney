@@ -21,7 +21,7 @@ namespace BLL.Services
             _deviceRepository = deviceRepository;
             _logger = logger;
         }
-        public Task<BaseValidate> DeleteDevice(string id)
+        public Task<string> DeleteDevice(string id)
         {
             try
             {

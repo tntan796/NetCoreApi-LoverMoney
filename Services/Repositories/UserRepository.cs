@@ -24,7 +24,7 @@ namespace DAL.Repositories
             _connectionString = configuration.GetConnectionString("LoverMoneyConnection");
             _logger = logger;
         }
-        public async Task<BaseValidate> DeleteUser(string id)
+        public async Task<string> DeleteUser(string id)
         {
             try
             {
@@ -34,10 +34,29 @@ namespace DAL.Repositories
                     connection.Open();
                     var param = new DynamicParameters();
                     param.Add("@Id", id);
-                    param.Add("@StatusCode", 0, DbType.Int32, direction: ParameterDirection.InputOutput);
-                    param.Add("@Message", "", DbType.String, direction: ParameterDirection.InputOutput);
-                    var category = await connection.QueryAsync<User>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
-                    return new BaseValidate(param.Get<int>("@StatusCode"), param.Get<string>("@Message"));
+                    await connection.QueryAsync<User>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    return id;
+                }
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            try
+            {
+                const string storeProcedureName = "lm_User_Get_By_Email";
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    var param = new DynamicParameters();
+                    param.Add("@Email", email);
+                    var category = await connection.QuerySingleAsync<User>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    return category;
                 }
             }
             catch (Exception ex)
@@ -57,6 +76,27 @@ namespace DAL.Repositories
                     connection.Open();
                     var param = new DynamicParameters();
                     param.Add("@Id", id);
+                    var category = await connection.QuerySingleAsync<User>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    return category;
+                }
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        public async Task<User> GetUserByPhone(string phone)
+        {
+            try
+            {
+                const string storeProcedureName = "lm_User_Get_By_Phone";
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    var param = new DynamicParameters();
+                    param.Add("@Phone", phone);
                     var category = await connection.QuerySingleAsync<User>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     return category;
                 }
@@ -94,7 +134,7 @@ namespace DAL.Repositories
             }
         }
 
-        public string SetUser(User user)
+        public async Task<string> SetUser(User user)
         {
             try
             {
@@ -111,7 +151,7 @@ namespace DAL.Repositories
                     param.Add("@Phone", user.Phone);
                     param.Add("@IdentityNo", user.IdentityNo);
                     param.Add("@OutputRequestId", "", DbType.String, ParameterDirection.InputOutput);
-                    var result = connection.Execute(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    var result = await connection.ExecuteAsync(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     return param.Get<string>("@OutputRequestId");
 
                 }

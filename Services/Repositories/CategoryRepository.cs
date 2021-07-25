@@ -27,7 +27,7 @@ namespace DAL.Repositories
             _logger = logger;
         }
 
-        public async Task<BaseValidate> DeleteCustomer(string id)
+        public async Task<string> DeleteCustomer(string id)
         {
             try
             {
@@ -37,10 +37,8 @@ namespace DAL.Repositories
                     connection.Open();
                     var param = new DynamicParameters();
                     param.Add("@Id", id);
-                    param.Add("@StatusCode", 0 , DbType.Int32, direction: ParameterDirection.InputOutput);
-                    param.Add("@Message", "", DbType.String, direction: ParameterDirection.InputOutput);
-                    var category = await connection.QueryAsync<Category>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
-                    return new BaseValidate(param.Get<int>("@StatusCode"), param.Get<string>("@Message"));
+                    await connection.QueryAsync<Category>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    return id;
                 }
             }
             catch (Exception ex)

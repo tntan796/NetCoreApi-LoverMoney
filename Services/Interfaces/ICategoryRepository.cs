@@ -10,6 +10,6 @@ namespace DAL.Interfaces
         ResponseList<IEnumerable<Category>> GetCategories(FilterBase filter);
         Task<Category> GetCategoryById(string id);
         string SetCategory(Category category);
-        Task<BaseValidate> DeleteCustomer(string id);
+        Task<string> DeleteCustomer(string id);
     }
 }

@@ -23,32 +23,60 @@ namespace LoverMoney.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetDevices([FromQuery] FilterBase filterBase)
+        public BaseResponse<ResponseList<IEnumerable<Device>>> GetDevices([FromQuery] FilterBase filterBase)
         {
-            var result = _deviceService.GetDevices(filterBase);
-            return Json(result);
+            try
+            {
+                ResponseList<IEnumerable<Device>> result = _deviceService.GetDevices(filterBase);
+                return new BaseResponse<ResponseList<IEnumerable<Device>>>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<ResponseList<IEnumerable<Device>>>(ApiResult.Success, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetDeviceById(string id)
+        public async Task<BaseResponse<Device>> GetDeviceById(string id)
         {
-            var result = await _deviceService.GetDeviceById(id);
-            return Json(result);
+            try
+            {
+                Device result = await _deviceService.GetDeviceById(id);
+                return new BaseResponse<Device>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<Device>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpPost]
-        public IActionResult SetDevice([FromBody] Device device)
+        public BaseResponse<string> SetDevice([FromBody] Device device)
         {
-            var result = _deviceService.SetDevice(device);
-            return Json(result);
+            try
+            {
+                string result = _deviceService.SetDevice(device);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDevice(string id)
+        public async Task<BaseResponse<string>> DeleteDevice(string id)
         {
-            var result = await _deviceService.DeleteDevice(id);
-            return Json(result);
+            try
+            {
+                string result = await _deviceService.DeleteDevice(id);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
     }
 }

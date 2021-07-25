@@ -12,6 +12,6 @@ namespace DAL.Interfaces
         ResponseList<IEnumerable<TransactionResponse>> GetTransactions(FilterBase filter);
         Task<TransactionResponse> GetTransactionById(string id);
         string SetTransaction(Transaction transaction);
-        Task<BaseValidate> DeleteTransaction(string id);
+        Task<string> DeleteTransaction(string id);
     }
 }

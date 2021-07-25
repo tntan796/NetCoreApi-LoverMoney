@@ -15,8 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Models;
 using Newtonsoft.Json.Serialization;
-using Utils.Authentication;
 
 namespace LoverMoney
 {

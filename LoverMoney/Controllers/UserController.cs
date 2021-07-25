@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Common;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LoverMoney.Controllers
@@ -22,32 +24,60 @@ namespace LoverMoney.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAccounts([FromQuery] FilterBase filterBase)
+        public BaseResponse<ResponseList<IEnumerable<User>>> GetAccounts([FromQuery] FilterBase filterBase)
         {
-            var result = _userService.GetUsers(filterBase);
-            return Json(result);
+            try
+            {
+                ResponseList<IEnumerable<User>> result = _userService.GetUsers(filterBase);
+                return new BaseResponse<ResponseList<IEnumerable<User>>>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<ResponseList<IEnumerable<User>>>(ApiResult.Success, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetUserById(string id)
+        public async Task<BaseResponse<User>> GetUserById(string id)
         {
-            var result = await _userService.GetUserById(id);
-            return Json(result);
+            try
+            {
+                User result = await _userService.GetUserById(id);
+                return new BaseResponse<User>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<User>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpPost]
-        public IActionResult SetUser([FromBody] User user)
+        public async Task<BaseResponse<string>> SetUser([FromBody] User user)
         {
-            var result = _userService.SetUser(user);
-            return Json(result);
+            try
+            {
+                string result = await _userService.SetUser(user);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(string id)
+        public async Task<BaseResponse<string>> DeleteUser(string id)
         {
-            var result = await _userService.DeleteUser(id);
-            return Json(result);
+            try
+            {
+                string result = await _userService.DeleteUser(id);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
     }
 }

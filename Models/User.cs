@@ -14,5 +14,6 @@ namespace Models
         public string Address { set; get; }
         public string Phone { set; get; }
         public string IdentityNo { set; get; }
+        public int StatusId { set; get; }
     }
 }

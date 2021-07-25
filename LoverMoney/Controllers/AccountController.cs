@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Common;
+using Swashbuckle.AspNetCore.Annotations;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LoverMoney.Controllers
@@ -22,25 +25,66 @@ namespace LoverMoney.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get([FromQuery] FilterBase filterBase)
+        public BaseResponse<ResponseList<IEnumerable<AccountReponse>>> Get([FromQuery] FilterBase filterBase)
         {
-            var result = _accountService.GetAccounts(filterBase);
-            return Json(result);
+           
+            try
+            {
+                var result = _accountService.GetAccounts(filterBase);
+                return new BaseResponse<ResponseList<IEnumerable<AccountReponse>>>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<ResponseList<IEnumerable<AccountReponse>>>(ApiResult.Success, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetAccountById(string id)
+        public async Task<BaseResponse<AccountReponse>> GetAccountById(string id)
         {
-            var result = await _accountService.GetAccountById(id);
-            return Json(result);
+            try
+            {
+                AccountReponse result = await _accountService.GetAccountById(id);
+                return new BaseResponse<AccountReponse>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<AccountReponse>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
+
         }
 
         [HttpPost]
-        public IActionResult SetAccount([FromBody] Account account)
+        [AllowAnonymous]
+        public async Task<BaseResponse<string>> SetAccount([FromBody] AccountReponse account)
         {
-            var result = _accountService.SetAccount(account);
-            return Json(result);
+            try
+            {
+                var result = await _accountService.SetAccount(account);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
+           
+        }
+
+        [HttpPost("SetAccountUser")]
+        [AllowAnonymous]
+        public async Task<BaseResponse<string>> SetAccountUser([FromBody] AccountReponse account)
+        {
+            try
+            {
+                var result = await _accountService.SetAccountUser(account);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
+
         }
 
         [HttpDelete("{id}")]

@@ -23,32 +23,60 @@ namespace LoverMoney.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetWallets([FromQuery] FilterBase filterBase)
+        public BaseResponse<ResponseList<IEnumerable<Wallet>>> GetWallets([FromQuery] FilterBase filterBase)
         {
-            var result = _walletService.GetWallets(filterBase);
-            return Json(result);
+            try
+            {
+                ResponseList<IEnumerable<Wallet>> result = _walletService.GetWallets(filterBase);
+                return new BaseResponse<ResponseList<IEnumerable<Wallet>>>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<ResponseList<IEnumerable<Wallet>>>(ApiResult.Success, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetWalletById(string id)
+        public async Task<BaseResponse<Wallet>> GetWalletById(string id)
         {
-            var result = await _walletService.GetWalletById(id);
-            return Json(result);
+            try
+            {
+                Wallet result = await _walletService.GetWalletById(id);
+                return new BaseResponse<Wallet>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<Wallet>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpPost]
-        public IActionResult SetWallet([FromBody] Wallet account)
+        public BaseResponse<string> SetWallet([FromBody] Wallet account)
         {
-            var result = _walletService.SetWallet(account);
-            return Json(result);
+            try
+            {
+                string result = _walletService.SetWallet(account);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWallet(string id)
+        public async Task<BaseResponse<string>> DeleteWallet(string id)
         {
-            var result = await _walletService.DeleteWallet(id);
-            return Json(result);
+            try
+            {
+                string result = await _walletService.DeleteWallet(id);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
     }
 }

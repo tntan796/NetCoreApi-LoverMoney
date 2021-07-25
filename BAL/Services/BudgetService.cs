@@ -21,7 +21,7 @@ namespace BLL.Services
             _logger = logger;
         }
 
-        public Task<BaseValidate> DeleteBudget(string id)
+        public Task<string> DeleteBudget(string id)
         {
             try
             {

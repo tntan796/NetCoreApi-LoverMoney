@@ -10,9 +10,10 @@ namespace BLL.Intefaces
     {
         ResponseList<IEnumerable<AccountReponse>> GetAccounts(FilterBase filter);
         Task<AccountReponse> GetAccountById(string id);
-        string SetAccount(Account account);
-        Task<BaseValidate> DeleteAccount(string id);
+        Task<string> SetAccount(AccountReponse account);
+        Task<string> DeleteAccount(string id);
         string GenerateJwtToken(AccountReponse account);
         Task<AuthenticateResponse> Authenticate(AuthenticateRequest model);
+        Task<string> SetAccountUser(AccountReponse account);
     }
 }

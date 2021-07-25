@@ -10,6 +10,6 @@ namespace DAL.Interfaces
         ResponseList<IEnumerable<Device>> GetDevices(FilterBase filter);
         Task<Device> GetDeviceById(string id);
         string SetDevice(Device device);
-        Task<BaseValidate> DeleteDevice(string id);
+        Task<string> DeleteDevice(string id);
     }
 }

@@ -6,19 +6,9 @@ namespace Models.Common
 {
     public enum ApiResult
     {
-        Success = 1,
-        Fail = 0,
-        FailedSome = 2,
-        NeedToRefreshData = 3,
-        InternalServerError = 4,
-        DeleteSuccess = 5,
-        DeleteFail = 6,
-        CreateFail = 7,
-        CreateFailDuplicate = 8,
-        OpenUrl = 9,
-        Valid = 10,
-        Invalid = 11,
-        Error = 12,
-        NotFound = 13
+        Success = 200,
+        InsertSuccess = 201,
+        NotFound = 404,
+        Fail = 500
     }
 }

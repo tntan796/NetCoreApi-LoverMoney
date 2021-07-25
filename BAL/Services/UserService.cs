@@ -21,7 +21,7 @@ namespace BLL.Implements
             _logger = logger;
         }
 
-        public Task<BaseValidate> DeleteUser(string id)
+        public Task<string> DeleteUser(string id)
         {
             try
             {
@@ -60,7 +60,7 @@ namespace BLL.Implements
             }
         }
 
-        public string SetUser(User user)
+        public Task<string> SetUser(User user)
         {
             try
             {

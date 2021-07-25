@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using BLL.Intefaces;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -20,32 +22,60 @@ namespace LoverMoney.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetBudgets([FromQuery] FilterBase filterBase)
+        public BaseResponse<ResponseList<IEnumerable<Budget>>> GetBudgets([FromQuery] FilterBase filterBase)
         {
-            var result = _budgetService.GetBudgets(filterBase);
-            return Json(result);
+            try
+            {
+                ResponseList<IEnumerable<Budget>> result = _budgetService.GetBudgets(filterBase);
+                return new BaseResponse<ResponseList<IEnumerable<Budget>>>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<ResponseList<IEnumerable<Budget>>>(ApiResult.Success, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetBudgetById(string id)
+        public async Task<BaseResponse<Budget>> GetBudgetById(string id)
         {
-            var result = await _budgetService.GetBudgetById(id);
-            return Json(result);
+            try
+            {
+                Budget result = await _budgetService.GetBudgetById(id);
+                return new BaseResponse<Budget>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<Budget>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpPost]
-        public IActionResult SetBudget([FromBody] Budget account)
+        public BaseResponse<string> SetBudget([FromBody] Budget account)
         {
-            var result = _budgetService.SetBudget(account);
-            return Json(result);
+            try
+            {
+                string result = _budgetService.SetBudget(account);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBudget(string id)
+        public async Task<BaseResponse<string>> DeleteBudget(string id)
         {
-            var result = await _budgetService.DeleteBudget(id);
-            return Json(result);
+            try
+            {
+                string result = await _budgetService.DeleteBudget(id);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
         }
     }
 }

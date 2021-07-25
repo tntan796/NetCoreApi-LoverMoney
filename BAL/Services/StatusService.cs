@@ -22,11 +22,11 @@ namespace BLL.Services
             _logger = logger;
         }
 
-        public Task<BaseValidate> DeleteStatus(int id)
+        public async Task<int> DeleteStatus(int id)
         {
             try
             {
-                return this._statusRepository.DeleteStatus(id);
+                return await this._statusRepository.DeleteStatus(id);
             }
             catch (Exception ex)
             {
