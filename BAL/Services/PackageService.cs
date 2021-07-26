@@ -48,7 +48,7 @@ namespace BLL.Services
             }
         }
 
-        public ResponseList<IEnumerable<Package>> GetPackages(FilterBase filter)
+        public ResponseList<IEnumerable<Package>> GetPackages(FilterBasePackage filter)
         {
             try
             {

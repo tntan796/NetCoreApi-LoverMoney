@@ -25,4 +25,10 @@ namespace Models.Common
             this.pageSize = pageSize;
         }
     }
+
+
+    public class FilterBasePackage: FilterBase
+    {
+        public bool IsIncome{ get; set; }
+    }
 }

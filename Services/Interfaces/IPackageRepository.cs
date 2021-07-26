@@ -7,7 +7,7 @@ namespace DAL.Interfaces
 {
     public interface IPackageRepository
     {
-        ResponseList<IEnumerable<Package>> GetPackages(FilterBase filter);
+        ResponseList<IEnumerable<Package>> GetPackages(FilterBasePackage filter);
         Task<Package> GetPackageById(int id);
         Task<int> SetPackage(Package package);
         Task<int> DeletePackage(int id);

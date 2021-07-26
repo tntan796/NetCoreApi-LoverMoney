@@ -67,7 +67,7 @@ namespace DAL.Repositories
             }
         }
 
-        public ResponseList<IEnumerable<Package>> GetPackages(FilterBase filter)
+        public ResponseList<IEnumerable<Package>> GetPackages(FilterBasePackage filter)
         {
             try
             {
@@ -77,6 +77,7 @@ namespace DAL.Repositories
                     connection.Open();
                     var param = new DynamicParameters();
                     param.Add("@filter", filter.filter);
+                    param.Add("@isIncome", filter.IsIncome);
                     param.Add("@offset", filter.offSet);
                     param.Add("@pageSize", filter.pageSize);
                     param.Add("@total", 0, DbType.Int32, ParameterDirection.InputOutput);
@@ -102,10 +103,14 @@ namespace DAL.Repositories
                 {
                     connection.Open();
                     var param = new DynamicParameters();
-                    param.Add("@Id", package.Id);
+                    param.Add("@id", package.Id);
+                    param.Add("@IsIncome", package.Id);
                     param.Add("@Name", package.Name);
                     param.Add("@Icon", package.Icon);
-                    param.Add("@PackageId", package.ParentId);
+                    param.Add("@IsIncome", package.IsIncome);
+                    param.Add("@ParentId", package.ParentId);
+                    param.Add("@AccountId", package.AccountId);
+                    param.Add("@WalletId", package.WalletId);
                     param.Add("@OutputRequestId", "", DbType.String, ParameterDirection.InputOutput);
                     var result = await connection.ExecuteAsync(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     return param.Get<int>("@OutputRequestId");

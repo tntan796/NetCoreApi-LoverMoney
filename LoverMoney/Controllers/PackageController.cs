@@ -21,7 +21,7 @@ namespace LoverMoney.Controllers
         }
 
         [HttpGet]
-        public BaseResponse<ResponseList<IEnumerable<Package>>> GetPackages([FromQuery] FilterBase filterBase)
+        public BaseResponse<ResponseList<IEnumerable<Package>>> GetPackages([FromQuery] FilterBasePackage filterBase)
         {
             try
             {
