@@ -130,7 +130,7 @@ namespace LoverMoney
             app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
+            app.UseHsts();
             //Enable cors
             app.UseCors(builder =>
                builder.AllowAnyOrigin()
