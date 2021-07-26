@@ -1,4 +1,5 @@
 ﻿using BLL.Intefaces;
+using DAL.Interfaces;
 using Microsoft.Extensions.Logging;
 using Models;
 using Models.Common;
@@ -10,20 +11,20 @@ namespace BLL.Services
 {
     public class WalletService : IWalletService
     {
-        private readonly IWalletService _walletService;
+        private readonly IWalletRepository _walletRepository;
         private readonly ILogger<Wallet> _logger;
 
         public WalletService(
-            IWalletService walletService, ILogger<Wallet> logger)
+            IWalletRepository walletRepository, ILogger<Wallet> logger)
         {
-            _walletService = walletService;
+            _walletRepository = walletRepository;
             _logger = logger;
         }
         public Task<string> DeleteWallet(string id)
         {
             try
             {
-                return this._walletService.DeleteWallet(id);
+                return this._walletRepository.DeleteWallet(id);
             }
             catch (Exception ex)
             {
@@ -36,7 +37,7 @@ namespace BLL.Services
         {
             try
             {
-                return this._walletService.GetWalletById(id);
+                return this._walletRepository.GetWalletById(id);
             }
             catch (Exception ex)
             {
@@ -49,7 +50,7 @@ namespace BLL.Services
         {
             try
             {
-                return this._walletService.GetWallets(filter);
+                return this._walletRepository.GetWallets(filter);
             }
             catch (Exception ex)
             {
@@ -62,7 +63,7 @@ namespace BLL.Services
         {
             try
             {
-                return this._walletService.SetWallet(wallet);
+                return this._walletRepository.SetWallet(wallet);
             }
             catch (Exception ex)
             {

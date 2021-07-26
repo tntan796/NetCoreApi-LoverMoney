@@ -37,6 +37,11 @@ namespace LoverMoney
             
             var userConnectionString = Configuration.GetConnectionString("LoverMoneyConnection");
 
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+                                                            .AllowAnyMethod()
+                                                             .AllowAnyHeader()));
+
+
             //JSOn serializer
             services.AddControllersWithViews().AddNewtonsoftJson(option =>
             option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
@@ -44,18 +49,27 @@ namespace LoverMoney
                     new DefaultContractResolver());
 
             //Register Repository
-            services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<IBankRepository, BankRepository>();
-            services.AddTransient<IUserRepository, UserRepsitory>();
+            services.AddTransient<IBudgetRepository, BudgetRespository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<IDeviceRepository, DeviceRepository>();
+            services.AddTransient<IPackageRepository, PackageRepository>();
             services.AddTransient<IStatusRepository, StatusRepository>();
+            services.AddTransient<ITransactionRepository, TransactionRepository>();
+            services.AddTransient<IUserRepository, UserRepsitory>();
+            services.AddTransient<IWalletRepository, WalletRepository>();
 
             // Register Service
-            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IBankService, BankService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IDeviceService, DeviceService>();
+            services.AddScoped<IPackageService, PackageService>();
             services.AddScoped<IStatusService, StatusService>();
+            services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IWalletService, WalletService>();
 
             // Validate token gửi lên kèm api xem có đúng không
             string issuer = Configuration.GetValue<string>("Tokens:Issuer");
@@ -130,12 +144,8 @@ namespace LoverMoney
             app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseHsts();
             //Enable cors
-            app.UseCors(builder =>
-               builder.AllowAnyOrigin()
-                   .AllowAnyHeader()
-                   .AllowAnyMethod());
+            app.UseCors("AllowAll");
 
             app.UseAuthentication();
 
