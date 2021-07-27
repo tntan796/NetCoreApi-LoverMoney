@@ -59,6 +59,7 @@ namespace LoverMoney
             services.AddTransient<ITransactionRepository, TransactionRepository>();
             services.AddTransient<IUserRepository, UserRepsitory>();
             services.AddTransient<IWalletRepository, WalletRepository>();
+            services.AddTransient<IFaqRepository, FaqRepository>();
 
             // Register Service
             services.AddScoped<IAccountService, AccountService>();
@@ -70,6 +71,7 @@ namespace LoverMoney
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IWalletService, WalletService>();
+            services.AddScoped<IFaqService, FaqService>();
 
             // Validate token gửi lên kèm api xem có đúng không
             string issuer = Configuration.GetValue<string>("Tokens:Issuer");
