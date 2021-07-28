@@ -140,6 +140,8 @@ namespace DAL.Repositories
                     param.Add("@Address", account.Address);
                     param.Add("@Phone", account.Phone);
                     param.Add("@IdentityNo", account.IdentityNo);
+                    param.Add("@IsVip", account.IsVip);
+                    param.Add("@RoleId", account.RoleId);
                     param.Add("@OutputRequestId", "", DbType.String, ParameterDirection.InputOutput);
                     var result = await connection.ExecuteAsync(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     var id = param.Get<string>("@OutputRequestId");

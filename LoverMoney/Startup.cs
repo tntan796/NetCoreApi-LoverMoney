@@ -55,6 +55,8 @@ namespace LoverMoney
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IDeviceRepository, DeviceRepository>();
             services.AddTransient<IPackageRepository, PackageRepository>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IRoleDetailRepository, RoleDetailRepository>();
             services.AddTransient<IStatusRepository, StatusRepository>();
             services.AddTransient<ITransactionRepository, TransactionRepository>();
             services.AddTransient<IUserRepository, UserRepsitory>();
@@ -67,6 +69,8 @@ namespace LoverMoney
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IDeviceService, DeviceService>();
             services.AddScoped<IPackageService, PackageService>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IRoleDetailService, RoleDetailService>();
             services.AddScoped<IStatusService, StatusService>();
             services.AddScoped<ITransactionService, TransactionService>();
             services.AddScoped<IUserService, UserService>();

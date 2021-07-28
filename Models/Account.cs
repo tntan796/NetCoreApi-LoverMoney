@@ -16,6 +16,8 @@ namespace Models
         public DateTime CreatedDate { set; get; }
         public string CreateBy { set; get; }
         public string OldPassword { set; get; }
+        public bool IsVip { set; get; }
+        public string RoleId { set; get; }
     }
 
     public class AccountReponse: Account
