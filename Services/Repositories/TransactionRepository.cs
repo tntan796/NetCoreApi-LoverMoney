@@ -68,6 +68,28 @@ namespace DAL.Repositories
             }
         }
 
+        public async Task<IEnumerable<TransactionRangeDate>> GetTransactionRangeDate(DateTime? startDate, DateTime? endDate)
+        {
+            try
+            {
+                const string storeProcedureName = "lm_TRANSACTION_RANGE_DATE";
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    var param = new DynamicParameters();
+                    param.Add("@StartDate", startDate);
+                    param.Add("@EndDate", endDate);
+                    var dateRanges = await connection.QueryAsync<TransactionRangeDate>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    return dateRanges;
+                }
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
+        }
+
         public ResponseList<IEnumerable<TransactionResponse>> GetTransactions(FilterBase filter)
         {
             try

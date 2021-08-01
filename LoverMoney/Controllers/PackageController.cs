@@ -5,11 +5,13 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LoverMoney.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PackageController : Controller
     {
         IPackageService _packageService;
@@ -36,7 +38,7 @@ namespace LoverMoney.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<BaseResponse<Package>> GetPackageById(int id)
+        public async Task<BaseResponse<Package>> GetPackageById(string id)
         {
             try
             {
@@ -50,30 +52,30 @@ namespace LoverMoney.Controllers
         }
 
         [HttpPost]
-        public async Task<BaseResponse<int>> SetPackage([FromBody] Package package)
+        public async Task<BaseResponse<string>> SetPackage([FromBody] Package package)
         {
             try
             {
-                int result = await _packageService.SetPackage(package);
-                return new BaseResponse<int>(ApiResult.Success, result, null);
+                string result = await _packageService.SetPackage(package);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
             }
             catch (Exception ex)
             {
-                return new BaseResponse<int>(ApiResult.Fail, -1, ex.Message, ex.Message);
+                return new BaseResponse<string>(ApiResult.Fail, "", ex.Message, ex.Message);
             }
         }
 
         [HttpDelete("{id}")]
-        public async Task<BaseResponse<int>> DeletePackage(int id)
+        public async Task<BaseResponse<string>> DeletePackage(string id)
         {
             try
             {
-                int result = await _packageService.DeletePackage(id);
-                return new BaseResponse<int>(ApiResult.Success, result, null);
+                string result = await _packageService.DeletePackage(id);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
             }
             catch (Exception ex)
             {
-                return new BaseResponse<int>(ApiResult.Fail, -1, ex.Message, ex.Message);
+                return new BaseResponse<string>(ApiResult.Fail, "", ex.Message, ex.Message);
             }
         }
     }

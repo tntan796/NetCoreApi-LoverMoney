@@ -32,4 +32,15 @@ namespace Models
         public string CategoryName { set; get; }
         public string UserName { set; get; }
     }
+
+    public class TransactionRangeDate
+    {
+        public string MonthName { set; get; }
+        public string StartDay { set; get; }
+        public string EndDay { set; get; }
+        public string Month { set; get; }
+        public string Year { set; get; }
+        public DateTime StartDate { set; get; }
+        public DateTime EndDate { set; get; }
+    }
 }

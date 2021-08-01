@@ -13,5 +13,6 @@ namespace BLL.Intefaces
         Task<TransactionResponse> GetTransactionById(string id);
         string SetTransaction(Transaction transaction);
         Task<string> DeleteTransaction(string id);
+        Task<IEnumerable<TransactionRangeDate>> GetTransactionRangeDate(DateTime? startDate, DateTime? endDate);
     }
 }

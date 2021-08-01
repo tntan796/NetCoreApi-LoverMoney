@@ -12,13 +12,13 @@ namespace BLL.Services
 {
     public class RoleService: IRoleService
     {
-        private readonly IRoleService _roleService;
+        private readonly IRoleRepository _roleRepository;
         private readonly ILogger<RoleService> _logger;
 
         public RoleService(
-            IRoleService roleService, ILogger<RoleService> logger)
+            IRoleRepository roleRepository, ILogger<RoleService> logger)
         {
-            _roleService = roleService;
+            _roleRepository = roleRepository;
             _logger = logger;
         }
 
@@ -26,7 +26,7 @@ namespace BLL.Services
         {
             try
             {
-                return this._roleService.DeleteRole(id);
+                return this._roleRepository.DeleteRole(id);
             }
             catch (Exception ex)
             {
@@ -39,7 +39,7 @@ namespace BLL.Services
         {
             try
             {
-                return this._roleService.GetRoleById(id);
+                return this._roleRepository.GetRoleById(id);
             }
             catch (Exception ex)
             {
@@ -52,7 +52,7 @@ namespace BLL.Services
         {
             try
             {
-                return this._roleService.GetRoles(filter);
+                return this._roleRepository.GetRoles(filter);
             }
             catch (Exception ex)
             {
@@ -65,7 +65,7 @@ namespace BLL.Services
         {
             try
             {
-                return this._roleService.SetRole(role);
+                return this._roleRepository.SetRole(role);
             }
             catch (Exception ex)
             {

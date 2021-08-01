@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace LoverMoney.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize]
     public class AuthenticationController : Controller
     {
         private IAccountService _accountService;

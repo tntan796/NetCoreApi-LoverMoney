@@ -22,7 +22,7 @@ namespace BLL.Services
             _logger = logger;
         }
 
-        public Task<int> DeletePackage(int id)
+        public Task<string> DeletePackage(string id)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace BLL.Services
             }
         }
 
-        public Task<Package> GetPackageById(int id)
+        public Task<Package> GetPackageById(string id)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace BLL.Services
             }
         }
 
-        public Task<int> SetPackage(Package package)
+        public Task<string> SetPackage(Package package)
         {
             try
             {

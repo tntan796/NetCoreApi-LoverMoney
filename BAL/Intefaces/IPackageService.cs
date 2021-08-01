@@ -8,8 +8,8 @@ namespace BLL.Intefaces
     public interface IPackageService
     {
         ResponseList<IEnumerable<Package>> GetPackages(FilterBasePackage filter);
-        Task<Package> GetPackageById(int id);
-        Task<int> SetPackage(Package package);
-        Task<int> DeletePackage(int id);
+        Task<Package> GetPackageById(string id);
+        Task<string> SetPackage(Package package);
+        Task<string> DeletePackage(string id);
     }
 }

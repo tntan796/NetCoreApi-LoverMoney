@@ -29,6 +29,6 @@ namespace Models.Common
 
     public class FilterBasePackage: FilterBase
     {
-        public bool IsIncome{ get; set; }
+        public bool? IsIncome { get; set; } = null;
     }
 }

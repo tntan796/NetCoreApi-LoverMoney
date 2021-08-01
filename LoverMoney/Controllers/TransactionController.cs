@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BLL.Intefaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Common;
@@ -10,6 +11,7 @@ namespace LoverMoney.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TransactionController : Controller
     {
 
@@ -76,6 +78,20 @@ namespace LoverMoney.Controllers
             catch (Exception ex)
             {
                 return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
+        }
+
+        [HttpGet("GetTransactionDateRange")]
+        public async Task<BaseResponse<IEnumerable<TransactionRangeDate>>> GetTransactionDateRange(DateTime? startDate = null, DateTime? endDate = null)
+        {
+            try
+            {
+                var result = await _transactionService.GetTransactionRangeDate(startDate, endDate);
+                return new BaseResponse<IEnumerable<TransactionRangeDate>>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<IEnumerable<TransactionRangeDate>>(ApiResult.Success, null, ex.Message);
             }
         }
     }

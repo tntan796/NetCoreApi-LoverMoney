@@ -48,6 +48,19 @@ namespace BLL.Services
             }
         }
 
+        public Task<IEnumerable<TransactionRangeDate>> GetTransactionRangeDate(DateTime? startDate, DateTime? endDate)
+        {
+            try
+            {
+                return this._transactionRepository.GetTransactionRangeDate(startDate, endDate);
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
+        }
+
         public ResponseList<IEnumerable<TransactionResponse>> GetTransactions(FilterBase filter)
         {
             try

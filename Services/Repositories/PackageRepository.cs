@@ -25,7 +25,7 @@ namespace DAL.Repositories
             _connectionString = configuration.GetConnectionString("LoverMoneyConnection");
             _logger = logger;
         }
-        public async Task<int> DeletePackage(int id)
+        public async Task<string> DeletePackage(string id)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace DAL.Repositories
             }
         }
 
-        public async Task<Package> GetPackageById(int id)
+        public async Task<Package> GetPackageById(string id)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace DAL.Repositories
             }
         }
 
-        public async Task<int> SetPackage(Package package)
+        public async Task<string> SetPackage(Package package)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace DAL.Repositories
                     param.Add("@WalletId", package.WalletId);
                     param.Add("@OutputRequestId", "", DbType.String, ParameterDirection.InputOutput);
                     var result = await connection.ExecuteAsync(storeProcedureName, param, commandType: CommandType.StoredProcedure);
-                    return param.Get<int>("@OutputRequestId");
+                    return param.Get<string>("@OutputRequestId");
                 }
             }
             catch (Exception ex)
