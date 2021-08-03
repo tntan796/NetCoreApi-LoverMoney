@@ -167,7 +167,7 @@ namespace DAL.Repositories
             }
         }
 
-        public decimal GetBalance(string id, DateTime fromDate, DateTime toDate, bool updateWallet)
+        public decimal GetBalance(string id, DateTime? fromDate, DateTime? toDate, bool updateWallet)
         {
             try
             {
@@ -180,7 +180,7 @@ namespace DAL.Repositories
                     param.Add("@FromDate", fromDate);
                     param.Add("@ToDate", toDate);
                     param.Add("@UpdateWallet", updateWallet);
-                    decimal result = connection.QueryFirstOrDefault(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    var result = connection.ExecuteScalar<decimal>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     return result;
                 }
             }

@@ -33,7 +33,7 @@ namespace BLL.Services
             }
         }
 
-        public decimal GetBalance(string id, DateTime fromDate, DateTime toDate, bool updateWallet)
+        public decimal GetBalance(string id, DateTime? fromDate, DateTime? toDate, bool updateWallet)
         {
             try
             {

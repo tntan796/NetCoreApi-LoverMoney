@@ -81,8 +81,8 @@ namespace LoverMoney.Controllers
             }
         }
 
-        [HttpGet]
-        public BaseResponse<decimal> GetBalance(string id, DateTime fromDate, DateTime toDate, bool updateWallet)
+        [HttpGet("GetBalance")]
+        public BaseResponse<decimal> GetBalance(string id, DateTime? fromDate = null, DateTime? toDate = null, bool updateWallet = false)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace LoverMoney.Controllers
                 return new BaseResponse<decimal>(ApiResult.Fail, -1, ex.Message, ex.Message);
             }
         }
-        [HttpPost]
+        [HttpPost("SetBalance")]
         public BaseResponse<string> SetBalance(DateTime createAt, string walletId, decimal amount)
         {
             try
@@ -107,7 +107,7 @@ namespace LoverMoney.Controllers
                 return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
             }
         }
-        [HttpPut]
+        [HttpPut("UpdateAmount")]
         public async Task<BaseResponse<string>> UpdateAmount(string id, decimal amount, bool? isDelete = false)
         {
             try

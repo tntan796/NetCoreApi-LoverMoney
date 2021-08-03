@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using BLL.Implements;
 using BLL.Intefaces;
@@ -132,6 +133,7 @@ namespace LoverMoney
                         new List<string>()
                     }
                 });
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             });
         }
 
