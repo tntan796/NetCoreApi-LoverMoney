@@ -36,7 +36,7 @@ namespace DAL.Repositories
                     connection.Open();
                     var param = new DynamicParameters();
                     param.Add("@Id", id);
-                    await connection.QueryAsync<Category>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    await connection.QueryAsync<Transaction>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     return id;
                 }
             }
@@ -137,7 +137,7 @@ namespace DAL.Repositories
                     param.Add("@Latitude", transaction.Latitude);
                     param.Add("@Longtitude", transaction.Longtitude);
                     param.Add("@AccountId", transaction.AccountId);
-                    param.Add("@CategoryId", transaction.CategoryId);
+                    param.Add("@PackageId", transaction.PackageId);
                     param.Add("@EditByUserId", transaction.EditByUserId);
                     param.Add("@With", transaction.With);
                     param.Add("@Metadata", transaction.Metadata);

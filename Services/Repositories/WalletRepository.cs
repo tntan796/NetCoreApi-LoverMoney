@@ -34,7 +34,7 @@ namespace DAL.Repositories
                     connection.Open();
                     var param = new DynamicParameters();
                     param.Add("@Id", id);
-                    await connection.QueryAsync<Category>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    await connection.QueryAsync<Wallet>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     return id;
                 }
             }
@@ -44,6 +44,7 @@ namespace DAL.Repositories
                 throw ex;
             }
         }
+
 
         public async Task<Wallet> GetWalletById(string id)
         {
@@ -118,5 +119,77 @@ namespace DAL.Repositories
                 throw ex;
             }
         }
+
+        public async Task<string> UpdateAmount(string id, decimal amount, bool? isDelete = false)
+        {
+            try
+            {
+                const string storeProcedureName = "lm_Wallet_Set";
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    var param = new DynamicParameters();
+                    param.Add("@Id", id);
+                    param.Add("@Amount", amount);
+                    param.Add("@IsDelete", isDelete);
+                    param.Add("@OutputRequestId", "", DbType.String, ParameterDirection.InputOutput);
+                    var result = await connection.ExecuteAsync(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    return param.Get<string>("@OutputRequestId");
+                }
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
+        }
+
+
+        public void SetBalance(DateTime createAt, string walletId, decimal amount)
+        {
+            try
+            {
+                const string storeProcedureName = "lm_Wallet_Balance_Set";
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    var param = new DynamicParameters();
+                    param.Add("@CreateAt", createAt);
+                    param.Add("@WalletId", walletId);
+                    param.Add("@Amount", amount);
+                    connection.Execute(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                }
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        public decimal GetBalance(string id, DateTime fromDate, DateTime toDate, bool updateWallet)
+        {
+            try
+            {
+                const string storeProcedureName = "lm_Wallet_Get_Balance";
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    var param = new DynamicParameters();
+                    param.Add("@Id", id);
+                    param.Add("@FromDate", fromDate);
+                    param.Add("@ToDate", toDate);
+                    param.Add("@UpdateWallet", updateWallet);
+                    decimal result = connection.QueryFirstOrDefault(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
+        }
+
     }
 }

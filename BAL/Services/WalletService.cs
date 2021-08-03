@@ -33,6 +33,19 @@ namespace BLL.Services
             }
         }
 
+        public decimal GetBalance(string id, DateTime fromDate, DateTime toDate, bool updateWallet)
+        {
+            try
+            {
+                return this._walletRepository.GetBalance(id, fromDate, toDate, updateWallet);
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
+        }
+
         public Task<Wallet> GetWalletById(string id)
         {
             try
@@ -59,11 +72,37 @@ namespace BLL.Services
             }
         }
 
+        public void SetBalance(DateTime createAt, string walletId, decimal amount)
+        {
+            try
+            {
+                this._walletRepository.SetBalance(createAt, walletId, amount);
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
+        }
+
         public string SetWallet(Wallet wallet)
         {
             try
             {
                 return this._walletRepository.SetWallet(wallet);
+            }
+            catch (Exception ex)
+            {
+                this._logger.LogError(ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        public Task<string> UpdateAmount(string id, decimal amount, bool? isDelete = false)
+        {
+            try
+            {
+                return this._walletRepository.UpdateAmount(id, amount, isDelete);
             }
             catch (Exception ex)
             {

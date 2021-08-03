@@ -80,5 +80,45 @@ namespace LoverMoney.Controllers
                 return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
             }
         }
+
+        [HttpGet]
+        public BaseResponse<decimal> GetBalance(string id, DateTime fromDate, DateTime toDate, bool updateWallet)
+        {
+            try
+            {
+                decimal result = _walletService.GetBalance(id, fromDate, toDate, updateWallet);
+                return new BaseResponse<decimal>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<decimal>(ApiResult.Fail, -1, ex.Message, ex.Message);
+            }
+        }
+        [HttpPost]
+        public BaseResponse<string> SetBalance(DateTime createAt, string walletId, decimal amount)
+        {
+            try
+            {
+                _walletService.SetBalance(createAt, walletId, amount);
+                return new BaseResponse<string>(ApiResult.Success, "", null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
+        }
+        [HttpPut]
+        public async Task<BaseResponse<string>> UpdateAmount(string id, decimal amount, bool? isDelete = false)
+        {
+            try
+            {
+                string result = await _walletService.UpdateAmount(id, amount, isDelete);
+                return new BaseResponse<string>(ApiResult.Success, result, null);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponse<string>(ApiResult.Fail, null, ex.Message, ex.Message);
+            }
+        }
     }
 }

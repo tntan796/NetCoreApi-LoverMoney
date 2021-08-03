@@ -37,7 +37,7 @@ namespace DAL.Repositories
                     param.Add("@Id", id);
                     param.Add("@StatusCode", 0, DbType.Int32, direction: ParameterDirection.InputOutput);
                     param.Add("@Message", "", DbType.String, direction: ParameterDirection.InputOutput);
-                    var category = await connection.QueryAsync<Category>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    var category = await connection.QueryAsync<Account>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     return id;
                 }
             }

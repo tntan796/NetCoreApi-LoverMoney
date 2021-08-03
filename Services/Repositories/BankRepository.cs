@@ -35,7 +35,7 @@ namespace DAL.Repositories
                     connection.Open();
                     var param = new DynamicParameters();
                     param.Add("@Id", id);
-                    await connection.QueryAsync<Category>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    await connection.QueryAsync<Bank>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     return id;
                 }
             }
@@ -113,7 +113,7 @@ namespace DAL.Repositories
                     param.Add("@HasBalance", bank.HasBalance);
                     param.Add("@Browser", bank.Browser);
                     param.Add("@OutputRequestId", "", DbType.String, ParameterDirection.InputOutput);
-                    var result = connection.Execute(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    var result = await connection.ExecuteAsync(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     return param.Get<string>("@OutputRequestId");
                 }
             }

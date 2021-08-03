@@ -18,7 +18,7 @@ namespace Models
         public int Latitude { set; get; }
         public int Longtitude { set; get; }
         public string AccountId { set; get; }
-        public string CategoryId { set; get; }
+        public string PackageId { set; get; }
         public string EditByUserId { set; get; }
         public string With { set; get; }
         public string Metadata { set; get; }
@@ -29,7 +29,7 @@ namespace Models
     public class TransactionResponse: Transaction
     {
         public string WalletName { set; get; }
-        public string CategoryName { set; get; }
+        public string PackageName { set; get; }
         public string UserName { set; get; }
     }
 

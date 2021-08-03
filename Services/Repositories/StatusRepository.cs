@@ -34,7 +34,7 @@ namespace DAL.Repositories
                     connection.Open();
                     var param = new DynamicParameters();
                     param.Add("@Id", id);
-                    await connection.QueryAsync<Category>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
+                    await connection.QueryAsync<Status>(storeProcedureName, param, commandType: CommandType.StoredProcedure);
                     return id;
                 }
             }
